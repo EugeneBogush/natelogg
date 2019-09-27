@@ -41,11 +41,11 @@ app.use(morgan('dev'));
 app.use('/static', express.static(__dirname + '/static'));
 
 app.get('/', function (req, res) {
-    fs.readdir(config.logDirectory, function(err, logs) {
+    fs.readdir(config.logDirectory, function(err, files) {
         if(err) {
            return res.send('Can\'t read log directory ' + config.logDirectory);
         }
-
+        const logs = files.filter(el => /\.log$/.test(el));
         res.render('main', {
             logs: logs,
             options: options
